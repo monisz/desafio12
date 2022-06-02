@@ -36,39 +36,9 @@
     "id": 6
   },
   {
-    "title": "Cuaderno",
-    "price": "400",
-    "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/book-note-paper-school-128.png",
+    "title": "Mochila",
+    "price": "500",
+    "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/bag-pack-container-school-128.png",
     "id": 7
-  },
-  {
-    "title": "mochila",
-    "price": "2000",
-    "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/bag-pack-container-school-128.png",
-    "id": 8
-  },
-  {
-    "title": "mochila",
-    "price": "2000",
-    "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/bag-pack-container-school-128.png",
-    "id": 9
-  },
-  {
-    "title": "bus",
-    "price": "300000",
-    "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/bus-vehicle-transport-school-128.png",
-    "id": 10
-  },
-  {
-    "title": "bus",
-    "price": "300000",
-    "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/bus-vehicle-transport-school-128.png",
-    "id": 11
-  },
-  {
-    "title": "segundo bus",
-    "price": "500000",
-    "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/bus-vehicle-transport-school-128.png",
-    "id": 12
   }
 ]

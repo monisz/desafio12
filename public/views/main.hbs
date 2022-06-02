@@ -1,3 +1,23 @@
+<div class="container p-5 my-5 bg-light">
+  <h1 style="color:blue">Ingrese Producto</h1>
+  <form action="/productos" method="POST" id="form">
+    <div class="mb-3 mt-3">
+      <label for="title" class="form-label">Nombre</label>
+      <input type="text" class="form-control" id="name" placeholder="Ingrese el nombre del producto" name="title" required>
+    </div>
+    <div class="mb-3">
+      <label for="price" class="form-label">Precio</label>
+      <input type="number" class="form-control" id="price" placeholder="Ingrese precio" name="price" required>
+    </div>
+    <div class="mb-3">
+      <label for="photo" class="form-label">Foto URL</label>
+      <input type="url" class="form-control" id="image" placeholder="Ingrese imagen" name="thumbnail" required>
+    </div>
+    <button type="submit" class="btn btn-success" id="send">Cargar producto</button>
+    <div id="listaProductos"></div>
+  </form>
+</div>
+
 <div class="container p-4 my-5 bg-light" id="listaProductos2">
     <h1 style="color:blue">Vista de Productos</h1><br>
     {{#if products}}
@@ -20,7 +40,18 @@
     {{else}}
     <h3 style="background-color:aquamarine">No se encontraron productos</h3><br>
     {{/if}}
-    <form action="/" method="GET">
-        <button type="submit" class="btn btn-primary">Ir al formulario de carga de productos</button>
-    </form>
+</div>
+
+<div class="container p-5 my-5 bg-light">
+  <h1 style="color:blue">Centro de mensajes</h1>
+  <form onsubmit="return sendMessage()" >
+    <div class="mb-3 mt-3">
+      <input type="email" class="form-control" id="email" placeholder="Ingrese su email" required/>
+    </div>
+    <div id="messages"></div>
+    <div class="mb-3 mt-3">
+      <input type="text" class="form-control" id="text" placeholder="Ingresá un mensaje"/>
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar mensaje</button>
+  </form>
 </div>

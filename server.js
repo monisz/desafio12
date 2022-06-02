@@ -1,11 +1,16 @@
 const express = require('express');
 const { engine } = require('express-handlebars');
 const { Server: HttpServer } = require('http');
-const { Server: IOServer } = require('socket.io');
+const { Server: SocketServer } = require('socket.io');
+const fs = require('fs');
+
+const messages = [];
+const fileMessages = "mensajes.txt";
+fs.writeFileSync(fileMessages, "[]");
 
 const app = express();
 const httpServer = new HttpServer(app);
-const ioServer = new IOServer(httpServer);
+const ioServer = new SocketServer(httpServer);
 
 const Container = require('./container');
 const fileName = new Container ("productos.txt");
@@ -26,39 +31,13 @@ app.set('views', './public/views');
 app.set('view engine', 'hbs');
 
 //Vista de todos los productos
-app.get('/productos', (req, res) => {
+app.get('/', (req, res) => {
     const getProducts = async () => {
         const products = await fileName.getAll();
-        res.render('main', {products})
+        res.render('main', {products});
     };
     getProducts();
 });
-
-/* const obtenerLista = async () => { */
-/*     const response = await fetch(fileName,{ */
-/*         method: "GET", */
-/*     }); */
-/*     const data = await response.json(); */
-/*     console.log(data) */
-/* } */
-/*  */
-/* obtenerLista(); */
-
-/* document.getElementById("listaProductos").innerHTML = ` */
-/* app.get('/productos', (req, res) => { */
-/*     const getProducts = async () => { */
-/*         const products = await fileName.getAll(); */
-/*         res.render('main', {products}) */
-/*     }; */
-/*     getProducts(); */
-/* }); */
-/*  */
-/* ` */
-
-//Para redirigir al formulario de carga de productos
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/public/input.html');
-})
 
 
 //Para agregar un producto
@@ -66,48 +45,33 @@ app.post('/productos', (req, res) => {
     const newProduct = req.body;
     const getProducts = async () => {
         const newId = await fileName.save(newProduct);
-        /* res.sendFile(__dirname + '/public/input.html'); */
     };
     getProducts();
+    res.redirect('/');
 });
 
-httpServer.listen(3000, () => {
+
+//Para guardar el nuevo mensaje en el archivo de mensajes
+const saveMessage = (message) => {
+    const content = fs.readFileSync(fileMessages, 'utf-8');
+    const contentParse = JSON.parse(content);
+    contentParse.push(message);
+    fs.writeFileSync(fileMessages, JSON.stringify(contentParse, null, 2));
+}
+
+
+httpServer.listen(8080, () => {
     console.log("escuchando desafio 12");
 });
 
+
 ioServer.on('connection', (socket) => {
     console.log('Nuevo cliente conectado');
-    const getProducts = async () => {
-        const products = await fileName.getAll();
-        ioServer.sockets.emit('lista', products);
-    };
-    getProducts();
+    socket.emit('messages', messages);
 
-    /* app.get('/', (req, res) => { */
-    /*     const getProducts = async () => { */
-    /*         const products = await fileName.getAll() */;
-    /*         ioServer.sockets.emit('lista', products) */;
-    /*     }; */
-    /*     getProducts(); */
-    /* }); */
-
-
-
-    socket.on('message', (newProduct) => {
-        const saveProduct = async () => {
-            const newId = await fileName.save(newProduct);
-        };
-        saveProduct();
-    });
-    
-    
-    
-    
-    /* fetch(fileName) */
-    /*     .then(res => res.json()) */
-    /*     .then(res => console.log(data.title)) */
-    
+    socket.on("newMessage", (message) => {
+        messages.push(message);
+        ioServer.sockets.emit("messages", messages);
+        saveMessage(message);
+    })    
 })
-
-
-
